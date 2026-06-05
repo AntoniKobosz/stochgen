@@ -1,0 +1,2 @@
+PKG_CPPFLAGS $(shell gsl-config --cflags)
+PKG_LIBS $(shell gsl-config --libs)

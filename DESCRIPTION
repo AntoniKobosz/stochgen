@@ -7,4 +7,5 @@ Description: TODO
 License: MIT License
 Encoding: UTF-8
 Depends: R(>=3.4)
+SystemRequirements: GSL
 RoxygenNote: 7.3.3  
