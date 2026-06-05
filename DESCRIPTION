@@ -1,11 +1,11 @@
 Package: stochgen
 Type: Package
 Title: TODO
-Version:    0.1.0
-Authors@R: pesron("Antoni","Kobosz",email="antoni.kobosz@gmail.com",role=c("aut","cre"))
+Version: 0.1.0
+Authors@R: person("Antoni","Kobosz",email="antoni.kobosz@gmail.com",role=c("aut","cre"))
 Description: TODO
 License: MIT License
 Encoding: UTF-8
 Depends: R(>=3.4)
 SystemRequirements: GSL
-RoxygenNote: 7.3.3  
+RoxygenNote: 7.3.3
