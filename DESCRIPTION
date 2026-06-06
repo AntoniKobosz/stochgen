@@ -6,6 +6,7 @@ Authors@R: person("Antoni","Kobosz",email="antoni.kobosz@gmail.com",role=c("aut"
 Description: TODO
 License: MIT License
 Encoding: UTF-8
-Depends: R(>=3.4)
+Depends: R (>= 3.4)
 SystemRequirements: GSL
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
