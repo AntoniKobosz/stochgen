@@ -1,1 +1,7 @@
 temp
+
+
+# Compiled files:
+*.o
+*.so
+*.a
