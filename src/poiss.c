@@ -3,15 +3,11 @@
 #include <gsl/gsl_randist.h>
 #include "poiss.h"
 
-void poiss_jump_times(double* t,double lambda,size_t n,unsigned long long seed){
+void poiss_jump_times(double* t,double lambda,size_t n,gsl_rng* rng){
     // Generuje momenty n skoków procesu Poissona Nt
     // Zapisuje wynik do wektora t
 
     // Odstępy czasowe między skokami mają rozkład Exp(lambda)
-
-    gsl_rng* rng = gsl_rng_alloc(gsl_rng_default);
-    gsl_rng_set(rng,seed);
-
     double tau = 0;
     double mu = 1/lambda;
 

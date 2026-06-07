@@ -1,8 +1,8 @@
 #ifndef POISS.H
 #define POISS.H
-
-
-void poiss_jump_times(double* t,double lambda,size_t n,unsigned long long seed);
+#include <gsl/gsl_rng.h>
+#include <gsl/gsl_randist.h>
+void poiss_jump_times(double* t,double lambda,size_t n,gsl_rng* rng);
 
 
 #endif
