@@ -19,7 +19,7 @@ void brownian_vector(double* x,double x0, double mu, double sigma, double dt,
         x[i] = x[i-1] + mu*dt + sigma*dW;
     }
 }
-void brownian_matrix(double* A,double A0, double mu, double sigma, double dt, 
+void brownian_matrix(double* A,double x0, double mu, double sigma, double dt, 
     size_t n,size_t m,gsl_rng* rng)
 {
     // Generates a matrix of m brownian vectors, each of length n.
@@ -28,7 +28,7 @@ void brownian_matrix(double* A,double A0, double mu, double sigma, double dt,
     double drift = mu*dt;
     
     for(size_t j = 0; j < m; ++j){
-        A[0+n*j] = A0;
+        A[0+n*j] = x0;
         for(size_t i = 1; i < n; ++i){
                 double dW = gsl_ran_gaussian(rng,sqrt_dt);
                 A[i+n*j] = A[i-1+n*j] + drift + sigma*dW;

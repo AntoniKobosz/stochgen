@@ -1,2 +1,2 @@
-PKG_CPPFLAGS = $(shell gsl-config --cflags)
+PKG_CPPFLAGS = $(shell gsl-config --cflags) -I../include
 PKG_LIBS = $(shell gsl-config --libs)

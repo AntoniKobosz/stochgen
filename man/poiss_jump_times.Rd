@@ -9,5 +9,5 @@ poiss_jump_times(lambda, n)
 \description{
 A Poisson process with intensity \eqn{\lambda} can be constructed by
 counting jumps which occur at random such that the time between jumps
-follows the Exponential distribution with parameter \lambda
+follows the Exponential distribution with parameter \eqn{\lambda}
 }

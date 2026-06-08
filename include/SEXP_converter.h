@@ -1,5 +1,5 @@
-#ifndef SEXP_CONVERTER.H
-#define SEXP_CONVERTER.H
+#ifndef SEXP_CONVERTER
+#define SEXP_CONVERTER
 
 #include <stdio.h>
 #include <R.h>

@@ -1,5 +1,5 @@
-#ifndef BROWNIAN.H
-#define BROWNIAN.H
+#ifndef BROWNIAN
+#define BROWNIAN
 
 #include <stdio.h>
 #include <gsl/gsl_rng.h>

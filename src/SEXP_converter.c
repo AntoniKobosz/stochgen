@@ -4,8 +4,8 @@
 
 size_t as_size_t(SEXP n)
 {
-    if(!Rf_isInteger(n))
-        Rf_error("Expected an integer");
+    if(!Rf_isNumeric(n))
+        Rf_error("Expected numeric");
 
     if(Rf_length(n) != 1)
         Rf_error("Expected scalar, got vector of length %d",Rf_length(n));
