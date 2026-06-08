@@ -4,7 +4,7 @@
 \alias{brownian_vector}
 \title{TODO}
 \usage{
-brownian_vector(x0, mu, sigma, dt, n)
+brownian_vector(dt, n, x0 = 0, mu = 0, sigma = 1)
 }
 \arguments{
 \item{TODO}{}

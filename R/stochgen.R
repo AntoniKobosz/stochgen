@@ -2,6 +2,12 @@
 "_PACKAGE"
 
 
+.process_type <- list(
+  brownian = 0L,
+  geom_brownian = 1L,
+  ornstein_uhlenbeck = 2L
+)
+
 #' @title
 #' Generete a vector of jump times of a Poisson process
 #'
@@ -28,8 +34,65 @@ poiss_jump_times <- function(lambda, n) {
 #' TODO
 #' 
 #' @export
-brownian_vector <- function(x0, mu, sigma, dt, n) {
-  .Call("brownian_vector_r", x0, mu, sigma, dt, n, PACKAGE = "stochgen")
+brownian_vector <- function(dt, n, x0 = 0, mu = 0, sigma = 1) {
+  .Call("stochastic_vector_r", x0, mu, sigma, 1, dt, n,
+        .process_type$brownian, PACKAGE = "stochgen")
+}
+#' @title
+#' TODO
+#' 
+#' @description
+#' TODO
+#' 
+#' @param
+#' TODO
+#' 
+#' @seealso
+#' TODO
+#' 
+#' @export
+geom_brownian_vector <- function(dt, n, x0 = 1, mu = 0, sigma = 1) {
+  .Call("stochastic_vector_r", x0, mu, sigma, 1, dt, n,
+        .process_type$geom_brownian, PACKAGE = "stochgen")
+}
+#' @title
+#' TODO
+#' 
+#' @description
+#' TODO
+#' 
+#' @param
+#' TODO
+#' 
+#' @seealso
+#' TODO
+#' 
+#' @export
+ornstein_uhlenbeck_vector <- function(dt, n, x0 = 0, mu = 0,
+                                      theta = 1, sigma = 1) {
+  .Call("stochastic_vector_r", x0, mu, sigma, theta, dt, n,
+        .process_type$ornstein_uhlenbeck, PACKAGE = "stochgen")
+}
+
+
+
+
+#' @title
+#' TODO
+#' 
+#' @description
+#' TODO
+#' 
+#' @param
+#' TODO
+#' 
+#' @seealso
+#' TODO
+#' 
+#' @export
+brownian_matrix <- function(dt, n_steps, n_traj, x0 = 0, mu = 0, sigma = 1) {
+  .Call("stochastic_matrix_r", x0, mu, sigma, 1, dt, n_steps, n_traj,
+        .process_type$brownian, PACKAGE = "stochgen")
 }
 
 #' @title
@@ -45,8 +108,10 @@ brownian_vector <- function(x0, mu, sigma, dt, n) {
 #' TODO
 #' 
 #' @export
-brownian_matrix <- function(x0, mu, sigma, dt, n, m) {
-  .Call("brownian_matrix_r", x0, mu, sigma, dt, n, m, PACKAGE = "stochgen")
+geom_brownian_matrix <- function(dt, n_steps, n_traj, x0 = 1,
+                                 mu = 0, sigma = 1) {
+  .Call("stochastic_matrix_r", x0, mu, sigma, 1, dt, n_steps, n_traj,
+        .process_type$geom_brownian, PACKAGE = "stochgen")
 }
 
 #' @title
@@ -62,8 +127,69 @@ brownian_matrix <- function(x0, mu, sigma, dt, n, m) {
 #' TODO
 #' 
 #' @export
-brownian_end_info <- function(x0, mu, sigma, dt,
-                              lower_thresh, upper_thresh, n, m) {
-  .Call("brownian_end_info_r", x0, mu, sigma, dt,
-        lower_thresh, upper_thresh, n, m, PACKAGE = "stochgen")
+ornstein_uhlenbeck_matrix <- function(dt, n_steps, n_traj, x0 = 0,
+                                      mu = 0, theta = 1, sigma = 1) {
+  .Call("stochastic_matrix_r", x0, mu, sigma, theta, dt, n_steps, n_traj,
+        .process_type$ornstein_uhlenbeck, PACKAGE = "stochgen")
+}
+
+#' @title
+#' TODO
+#' 
+#' @description
+#' TODO
+#' 
+#' @param
+#' TODO
+#' 
+#' @seealso
+#' TODO
+#' 
+#' @export
+brownian_end_info <- function(dt, n_steps, n_traj, x0 = 0, mu = 0, sigma = 1,
+                              lower_thresh = -1, upper_thresh = 1) {
+  .Call("stochastic_end_info_r", x0, mu, sigma, 1, dt, lower_thresh,
+        upper_thresh, n_steps, n_traj, .process_type$brownian,
+        PACKAGE = "stochgen")
+}
+
+#' @title
+#' TODO
+#' 
+#' @description
+#' TODO
+#' 
+#' @param
+#' TODO
+#' 
+#' @seealso
+#' TODO
+#' 
+#' @export
+geom_brownian_end_info <- function(dt, n_steps, n_traj, x0 = 1, mu = 0,
+                                   sigma = 1, lower_thresh, upper_thresh) {
+  .Call("stochastic_end_info_r", x0, mu, sigma, 1, dt, lower_thresh,
+        upper_thresh, n_steps, n_traj, .process_type$geom_brownian,
+        PACKAGE = "stochgen")
+}
+
+#' @title
+#' TODO
+#' 
+#' @description
+#' TODO
+#' 
+#' @param
+#' TODO
+#' 
+#' @seealso
+#' TODO
+#' 
+#' @export
+ornstein_uhlenbeck_end_info <- function(dt, n_steps, n_traj, x0 = 0,
+                                        mu = 0, theta = 1, sigma = 1,
+                                        lower_thresh = -1, upper_thresh = 1) {
+  .Call("stochastic_end_info_r", x0, mu, sigma, theta, dt, lower_thresh,
+        upper_thresh, n_steps, n_traj, .process_type$ornstein_uhlenbeck,
+        PACKAGE = "stochgen")
 }
