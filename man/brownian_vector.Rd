@@ -2,16 +2,37 @@
 % Please edit documentation in R/stochgen.R
 \name{brownian_vector}
 \alias{brownian_vector}
-\title{TODO}
+\title{Simulate a Brownian Motion path}
 \usage{
 brownian_vector(dt, n, x0 = 0, mu = 0, sigma = 1)
 }
 \arguments{
-\item{TODO}{}
+\item{dt}{Time step size}
+
+\item{n}{Number of steps}
+
+\item{x0}{Initial value}
+
+\item{mu}{Drift coefficient}
+
+\item{sigma}{Volatility coefficient}
+}
+\value{
+Numeric vector of length \code{n}
 }
 \description{
-TODO
+Simulates a brownian motion path following the SDE:
+\deqn{dS_t = \mu dt + \sigma dW_t}
+With solution
+\deqn{S_t = \mu t + \sigma W_t}
+where \eqn{W_t} is the Weiner process.
+}
+\examples{
+# Simulate a Brownian Motion path
+path <- brownian_vector(dt = 0.01, n = 100, x0 = 0, mu = 0, sigma = 1)
+plot(path, type = "l")
 }
 \seealso{
-TODO
+\code{\link[=brownian_matrix]{brownian_matrix()}}, \code{\link[=brownian_end_info]{brownian_end_info()}},
+\href{https://en.wikipedia.org/wiki/Wiener_process}{Wiener process}
 }

@@ -22,51 +22,84 @@ poiss_jump_times <- function(lambda, n) {
 }
 
 #' @title
-#' TODO
-#' 
+#' Simulate a Brownian Motion path
+#'
 #' @description
-#' TODO
-#' 
-#' @param
-#' TODO
-#' 
+#' Simulates a brownian motion path following the SDE:
+#' \deqn{dS_t = \mu dt + \sigma dW_t}
+#' With solution
+#' \deqn{S_t = \mu t + \sigma W_t}
+#' where \eqn{W_t} is the Weiner process.
+#'
+#' @param dt      Time step size
+#' @param n       Number of steps
+#' @param x0      Initial value
+#' @param mu      Drift coefficient
+#' @param sigma   Volatility coefficient
 #' @seealso
-#' TODO
-#' 
+#' [brownian_matrix()], [brownian_end_info()],
+#' [Wiener process](https://en.wikipedia.org/wiki/Wiener_process)
+#'
+#' @return
+#' Numeric vector of length \code{n}
+#' @examples
+#' # Simulate a Brownian Motion path
+#' path <- brownian_vector(dt = 0.01, n = 100, x0 = 0, mu = 0, sigma = 1)
+#' plot(path, type = "l")
 #' @export
 brownian_vector <- function(dt, n, x0 = 0, mu = 0, sigma = 1) {
   .Call("stochastic_vector_r", x0, mu, sigma, 1, dt, n,
         .process_type$brownian, PACKAGE = "stochgen")
 }
 #' @title
-#' TODO
-#' 
+#' Simulate a Geometric Brownian Motion path
+#'
 #' @description
-#' TODO
-#' 
-#' @param
-#' TODO
-#' 
+#' Simulates a brownian motion path following the SDE:
+#' \deqn{dS_t = \mu S_t dt + \sigma S_t dW_t}
+#' where \eqn{W_t} is the Weiner process.
+#'
+#' @inheritParams brownian_vector
+#'
+#' @return
+#' Numeric vector of length \code{n}
+#' @examples
+#' # Simulate a Geometric Brownian Motion path
+#' path <- geom_brownian_vector(dt = 0.01, n = 100, x0 = 1, mu = 0, sigma = 0.2)
+#' plot(path, type = "l")
 #' @seealso
-#' TODO
-#' 
+#' [geom_brownian_matrix()], [geom_brownian_end_info()],
+#' [Geometric Brownian Motion](https://en.wikipedia.org/wiki/Geometric_Brownian_motion)
+#'
 #' @export
 geom_brownian_vector <- function(dt, n, x0 = 1, mu = 0, sigma = 1) {
   .Call("stochastic_vector_r", x0, mu, sigma, 1, dt, n,
         .process_type$geom_brownian, PACKAGE = "stochgen")
 }
+
 #' @title
-#' TODO
-#' 
+#' Simulate an Ornstein-Uhlenbeck path
+#'
 #' @description
-#' TODO
-#' 
-#' @param
-#' TODO
-#' 
+#' Simulates an Ornstein-Uhlenbeck path following the SDE:
+#' \deqn{dS_t = -\theta(S_t-\mu)dt + \sigma dW_t}
+#' where \eqn{W_t} is the Weiner process.
+#'
+#' @inheritParams brownian_vector
+#' @param theta   Reversion rate
+#'
+#' @return
+#' Numeric vector of length \code{n}
 #' @seealso
-#' TODO
-#' 
+#' [ornstein_uhlenbeck_matrix()], [ornstein_uhlenbeck_end_info()],
+#' [Ornstein–Uhlenbeck process](https://en.wikipedia.org/wiki/Ornstein%E2%80%93Uhlenbeck_process)
+#'
+#' @examples
+#' # Simulate an Ornstein-Uhlenbeck path
+#' path <- ornstein_uhlenbeck_vector(dt = 0.01, n = 100, x0 = 0,
+#'                                   mu = 0, theta = 1, sigma = 1)
+#' plot(path, type = "l")
+
 #' @export
 ornstein_uhlenbeck_vector <- function(dt, n, x0 = 0, mu = 0,
                                       theta = 1, sigma = 1) {
@@ -78,17 +111,34 @@ ornstein_uhlenbeck_vector <- function(dt, n, x0 = 0, mu = 0,
 
 
 #' @title
-#' TODO
-#' 
+#' Simulate a bundle of Brownian Motion paths
+#'
 #' @description
-#' TODO
-#' 
-#' @param
-#' TODO
-#' 
+#' Simulates \code{n_traj} independent brownian motion paths following the SDE:
+#' \deqn{dS_t = \mu dt + \sigma dW_t}
+#' With solution
+#' \deqn{S_t = \mu t + \sigma W_t}
+#' where \eqn{W_t} is the Weiner process.
+#'
+#' @param dt      Time step size
+#' @param n_steps Number of steps in each path
+#' @param n_traj  Number of simulated paths
+#' @param x0      Initial value
+#' @param mu      Drift coefficient
+#' @param sigma   Volatility coefficient
 #' @seealso
-#' TODO
-#' 
+#' [brownian_vector()], [brownian_end_info()],
+#' [Wiener process](https://en.wikipedia.org/wiki/Wiener_process)
+#'
+#' @return
+#' Numeric matrix of dimension \code{n_steps x n_traj} containing simulated paths.
+#' Each column corresponds to one trajectory.
+#' @examples
+#' # Simulate a bundle of Brownian Motion paths
+#' M <- brownian_matrix(dt = 0.01, n_steps = 100, n_traj = 10)
+#' matplot(M, type = "l", lty = 1,
+#'         xlab = "step", ylab="S_t",
+#'         main = "Brownian Motion")
 #' @export
 brownian_matrix <- function(dt, n_steps, n_traj, x0 = 0, mu = 0, sigma = 1) {
   .Call("stochastic_matrix_r", x0, mu, sigma, 1, dt, n_steps, n_traj,
@@ -96,17 +146,27 @@ brownian_matrix <- function(dt, n_steps, n_traj, x0 = 0, mu = 0, sigma = 1) {
 }
 
 #' @title
-#' TODO
-#' 
+#' Simulate a bundle of Geometric Brownian Motion paths
+#'
 #' @description
-#' TODO
-#' 
-#' @param
-#' TODO
-#' 
+#' Simulates \code{n_traj} independent geometric brownian motion paths following the SDE:
+#' \deqn{dS_t = \mu S_t dt + \sigma S_t dW_t}
+#' where \eqn{W_t} is the Weiner process.
+#'
+#' @inheritParams brownian_matrix
 #' @seealso
-#' TODO
-#' 
+#' [geom_brownian_vector()], [geom_brownian_end_info()],
+#' [Geometric Brownian Motion](https://en.wikipedia.org/wiki/Geometric_Brownian_motion)
+#'
+#' @return
+#' Numeric matrix of dimension \code{n_steps x n_traj} containing simulated paths.
+#' Each column corresponds to one trajectory.
+#' @examples
+#' # Simulate a bundle of Geometric Brownian Motion paths
+#' M <- geom_brownian_matrix(dt = 0.01, n_steps = 100, n_traj = 10)
+#' matplot(M, type = "l", lty = 1,
+#'         xlab = "step", ylab="S_t",
+#'         main = "Geometric Brownian Motion")
 #' @export
 geom_brownian_matrix <- function(dt, n_steps, n_traj, x0 = 1,
                                  mu = 0, sigma = 1) {
@@ -115,17 +175,29 @@ geom_brownian_matrix <- function(dt, n_steps, n_traj, x0 = 1,
 }
 
 #' @title
-#' TODO
-#' 
+#' Simulate a bundle of Ornstein-Uhlenbeck paths
+#'
 #' @description
-#' TODO
-#' 
-#' @param
-#' TODO
-#' 
+#' Simulates \code{n_traj} independent Ornstein-Uhlenbeck paths following the SDE:
+#' \deqn{dS_t = -\theta(S_t-\mu)dt + \sigma dW_t}
+#' where \eqn{W_t} is the Weiner process.
+#'
+#' @inheritParams brownian_matrix
+#' @param theta   Reversion rate
+
+#' @return
+#' Numeric matrix of dimension \code{n_steps x n_traj} containing simulated paths.
+#' Each column corresponds to one trajectory.
 #' @seealso
-#' TODO
-#' 
+#' [ornstein_uhlenbeck_vector()], [ornstein_uhlenbeck_end_info()],
+#' [Ornstein–Uhlenbeck process](https://en.wikipedia.org/wiki/Ornstein%E2%80%93Uhlenbeck_process)
+#'
+#' @examples
+#' # Simulate a bundle of Ornstein-Uhlenbeck paths
+#' M <- ornstein_uhlenbeck_matrix(dt = 0.01, n_steps = 100, n_traj = 10)
+#' matplot(M, type = "l", lty = 1,
+#'         xlab = "step", ylab="S_t",
+#'         main = "Ornstein-Uhlenbeck paths")
 #' @export
 ornstein_uhlenbeck_matrix <- function(dt, n_steps, n_traj, x0 = 0,
                                       mu = 0, theta = 1, sigma = 1) {

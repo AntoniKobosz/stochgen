@@ -2,16 +2,40 @@
 % Please edit documentation in R/stochgen.R
 \name{geom_brownian_matrix}
 \alias{geom_brownian_matrix}
-\title{TODO}
+\title{Simulate a bundle of Geometric Brownian Motion paths}
 \usage{
 geom_brownian_matrix(dt, n_steps, n_traj, x0 = 1, mu = 0, sigma = 1)
 }
 \arguments{
-\item{TODO}{}
+\item{dt}{Time step size}
+
+\item{n_steps}{Number of steps in each path}
+
+\item{n_traj}{Number of simulated paths}
+
+\item{x0}{Initial value}
+
+\item{mu}{Drift coefficient}
+
+\item{sigma}{Volatility coefficient}
+}
+\value{
+Numeric matrix of dimension \code{n_steps x n_traj} containing simulated paths.
+Each column corresponds to one trajectory.
 }
 \description{
-TODO
+Simulates \code{n_traj} independent geometric brownian motion paths following the SDE:
+\deqn{dS_t = \mu S_t dt + \sigma S_t dW_t}
+where \eqn{W_t} is the Weiner process.
+}
+\examples{
+# Simulate a bundle of Geometric Brownian Motion paths
+M <- geom_brownian_matrix(dt = 0.01, n_steps = 100, n_traj = 10)
+matplot(M, type = "l", lty = 1,
+        xlab = "step", ylab="S_t",
+        main = "Geometric Brownian Motion")
 }
 \seealso{
-TODO
+\code{\link[=geom_brownian_vector]{geom_brownian_vector()}}, \code{\link[=geom_brownian_end_info]{geom_brownian_end_info()}},
+\href{https://en.wikipedia.org/wiki/Geometric_Brownian_motion}{Geometric Brownian Motion}
 }

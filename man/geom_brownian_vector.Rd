@@ -2,16 +2,35 @@
 % Please edit documentation in R/stochgen.R
 \name{geom_brownian_vector}
 \alias{geom_brownian_vector}
-\title{TODO}
+\title{Simulate a Geometric Brownian Motion path}
 \usage{
 geom_brownian_vector(dt, n, x0 = 1, mu = 0, sigma = 1)
 }
 \arguments{
-\item{TODO}{}
+\item{dt}{Time step size}
+
+\item{n}{Number of steps}
+
+\item{x0}{Initial value}
+
+\item{mu}{Drift coefficient}
+
+\item{sigma}{Volatility coefficient}
+}
+\value{
+Numeric vector of length \code{n}
 }
 \description{
-TODO
+Simulates a brownian motion path following the SDE:
+\deqn{dS_t = \mu S_t dt + \sigma S_t dW_t}
+where \eqn{W_t} is the Weiner process.
+}
+\examples{
+# Simulate a Brownian Motion path
+path <- geom_brownian_vector(dt = 0.01, n = 100, x0 = 1, mu = 0, sigma = 0.2)
+plot(path, type = "l")
 }
 \seealso{
-TODO
+\code{\link[=geom_brownian_matrix]{geom_brownian_matrix()}}, \code{\link[=geom_brownian_end_info]{geom_brownian_end_info()}},
+\href{https://en.wikipedia.org/wiki/Geometric_Brownian_motion}{Geometric Brownian Motion}
 }

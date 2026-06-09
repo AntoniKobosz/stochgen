@@ -2,16 +2,38 @@
 % Please edit documentation in R/stochgen.R
 \name{ornstein_uhlenbeck_vector}
 \alias{ornstein_uhlenbeck_vector}
-\title{TODO}
+\title{Simulate an Ornstein-Uhlenbeck path}
 \usage{
 ornstein_uhlenbeck_vector(dt, n, x0 = 0, mu = 0, theta = 1, sigma = 1)
 }
 \arguments{
-\item{TODO}{}
+\item{dt}{Time step size}
+
+\item{n}{Number of steps}
+
+\item{x0}{Initial value}
+
+\item{mu}{Drift coefficient}
+
+\item{theta}{Reversion rate}
+
+\item{sigma}{Volatility coefficient}
+}
+\value{
+Numeric vector of length \code{n}
 }
 \description{
-TODO
+Simulates an Ornstein-Uhlenbeck path following the SDE:
+\deqn{dS_t = -\theta(S_t-\mu)dt + \sigma dW_t}
+where \eqn{W_t} is the Weiner process.
+}
+\examples{
+# Simulate an Ornstein-Uhlenbeck path
+path <- ornstein_uhlenbeck_vector(dt = 0.01, n = 100, x0 = 0,
+                                  mu = 0, theta = 1, sigma = 1)
+plot(path, type = "l")
 }
 \seealso{
-TODO
+\code{\link[=ornstein_uhlenbeck_matrix]{ornstein_uhlenbeck_matrix()}}, \code{\link[=ornstein_uhlenbeck_end_info]{ornstein_uhlenbeck_end_info()}},
+\href{https://en.wikipedia.org/wiki/Ornstein\%E2\%80\%93Uhlenbeck_process}{Ornstein–Uhlenbeck process}
 }

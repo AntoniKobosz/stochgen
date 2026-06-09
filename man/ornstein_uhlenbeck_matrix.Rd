@@ -2,7 +2,7 @@
 % Please edit documentation in R/stochgen.R
 \name{ornstein_uhlenbeck_matrix}
 \alias{ornstein_uhlenbeck_matrix}
-\title{TODO}
+\title{Simulate a bundle of Ornstein-Uhlenbeck paths}
 \usage{
 ornstein_uhlenbeck_matrix(
   dt,
@@ -15,11 +15,37 @@ ornstein_uhlenbeck_matrix(
 )
 }
 \arguments{
-\item{TODO}{}
+\item{dt}{Time step size}
+
+\item{n_steps}{Number of steps in each path}
+
+\item{n_traj}{Number of simulated paths}
+
+\item{x0}{Initial value}
+
+\item{mu}{Drift coefficient}
+
+\item{theta}{Reversion rate}
+
+\item{sigma}{Volatility coefficient}
+}
+\value{
+Numeric matrix of dimension \code{n_steps x n_traj} containing simulated paths.
+Each column corresponds to one trajectory.
 }
 \description{
-TODO
+Simulates \code{n_traj} independent Ornstein-Uhlenbeck paths following the SDE:
+\deqn{dS_t = -\theta(S_t-\mu)dt + \sigma dW_t}
+where \eqn{W_t} is the Weiner process.
+}
+\examples{
+# Simulate a bundle of Ornstein-Uhlenbeck paths
+M <- ornstein_uhlenbeck_matrix(dt = 0.01, n_steps = 100, n_traj = 10)
+matplot(M, type = "l", lty = 1,
+        xlab = "step", ylab="S_t",
+        main = "Ornstein-Uhlenbeck paths")
 }
 \seealso{
-TODO
+\code{\link[=ornstein_uhlenbeck_vector]{ornstein_uhlenbeck_vector()}}, \code{\link[=ornstein_uhlenbeck_end_info]{ornstein_uhlenbeck_end_info()}},
+\href{https://en.wikipedia.org/wiki/Ornstein\%E2\%80\%93Uhlenbeck_process}{Ornstein–Uhlenbeck process}
 }
