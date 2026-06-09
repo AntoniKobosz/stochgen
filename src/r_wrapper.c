@@ -1,46 +1,14 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <R.h>
 #include <Rinternals.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
 #include "SEXP_converter.h"
 #include "poiss.h"
-#include "brownian.h"
-#include "geom_brownian.h"
 #include "stochastic_generator.h"
 #include <omp.h>
+#include "gsl_rng_utils.h"
 
-gsl_rng* create_rng()
-{
-    // Creates gsl_rng* object consistant with
-    // current R seed
-    gsl_rng* rng = gsl_rng_alloc(gsl_rng_default);
-
-    GetRNGstate();
-    unsigned long seed = (unsigned long) (unif_rand() * 0x100000000UL); // 2^32
-    PutRNGstate();
-
-    gsl_rng_set(rng,seed);
-    return rng;
-}
-gsl_rng** create_rng_array(int n)
-{
-    // Creates an array of gsl_rng* objects for multithreading
-    gsl_rng** rng_array = malloc(n * sizeof(gsl_rng*));
-    for (size_t i = 0; i < n; i++)
-    {
-        rng_array[i] = create_rng();
-    }
-    return rng_array;
-}
-// Frees the array and each gsl_rng element
-void free_rng_array(gsl_rng** rng_array,int n)
-{
-    for (size_t i = 0; i < n; i++)
-        gsl_rng_free(rng_array[i]);
-    free(rng_array);    
-}
 
 SEXP poiss_jump_times_r(SEXP lamba_,SEXP n_)
 {
@@ -85,6 +53,7 @@ SEXP stochastic_vector_r(SEXP x0_, SEXP mu_, SEXP sigma_, SEXP theta_, SEXP dt_,
 SEXP stochastic_matrix_r(SEXP x0_, SEXP mu_, SEXP sigma_, SEXP theta_, SEXP dt_,
     SEXP n_, SEXP m_, SEXP process_type)
 {
+    // Extract params
     double x0 = as_double(x0_);
     process_params p = {
         .mu = as_double(mu_),
@@ -97,6 +66,7 @@ SEXP stochastic_matrix_r(SEXP x0_, SEXP mu_, SEXP sigma_, SEXP theta_, SEXP dt_,
     int type = (int) as_size_t(process_type);
     dx_fn dx = select_process(type);
 
+    // Create RNG objects
     int thread_count = omp_get_max_threads();
     gsl_rng** rng_array = create_rng_array(thread_count);
 
@@ -126,6 +96,7 @@ SEXP stochastic_end_info_r(SEXP x0_, SEXP mu_, SEXP sigma_, SEXP theta_, SEXP dt
     int type = (int) as_size_t(process_type);
     dx_fn dx = select_process(type);
 
+    // Create RNG objects
     int thread_count = omp_get_max_threads();
     gsl_rng** rng_array = create_rng_array(thread_count);
 
