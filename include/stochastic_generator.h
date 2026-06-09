@@ -30,10 +30,10 @@ void stochastic_vector(double* x,double x0,process_params p, double dt,
      size_t n,dx_fn dx,gsl_rng* rng);
 
 void stochastic_matrix(double* A,double x0, process_params p, double dt, 
-    size_t n,size_t m,dx_fn dx,gsl_rng* rng);
+    size_t n,size_t m,dx_fn dx,gsl_rng** rng_array);
 
 void stochastic_end_info(double* xT,int* crossed_lower,int* crossed_upper, 
     double x0, process_params p, double dt, double lower_thresh,
-    double upper_thresh, size_t n, size_t m, dx_fn dx, gsl_rng* rng);
+    double upper_thresh, size_t n, size_t m, dx_fn dx, gsl_rng** rng_array);
 
 #endif

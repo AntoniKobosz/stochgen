@@ -5,6 +5,7 @@
 #include "stochastic_generator.h"
 #include <R.h>
 #include <Rinternals.h>
+#include <omp.h>
 
 
 // Brownian increment function
@@ -61,13 +62,15 @@ void stochastic_vector(double* x,double x0,process_params p, double dt,
 }
 
 void stochastic_matrix(double* A,double x0, process_params p, double dt, 
-    size_t n,size_t m,dx_fn dx,gsl_rng* rng)
+    size_t n,size_t m,dx_fn dx,gsl_rng** rng_array)
 {
     // Generates a matrix of m syochastic vectors, each of length n.
     // writes result into an nxm matrix in Fortran order
     double sqrt_dt = sqrt(dt);
     
+    #pragma omp parallel for
     for(size_t j = 0; j < m; ++j){
+        gsl_rng* rng = rng_array[omp_get_thread_num()];
         A[0+n*j] = x0;
         for(size_t i = 1; i < n; ++i){
                 double dW = gsl_ran_gaussian(rng,sqrt_dt);
@@ -79,14 +82,16 @@ void stochastic_matrix(double* A,double x0, process_params p, double dt,
 
 void stochastic_end_info(double* xT,int* crossed_lower,int* crossed_upper, 
     double x0, process_params p, double dt, double lower_thresh,
-    double upper_thresh, size_t n, size_t m, dx_fn dx, gsl_rng* rng)
+    double upper_thresh, size_t n, size_t m, dx_fn dx, gsl_rng** rng_array)
 {
     // Simulates m independent stochastic processes, 
     // returnes their values at the final time T = n*dt and 
     // whether they went below/above the provided thresholds during their runtime
     double sqrt_dt = sqrt(dt);
 
+    #pragma omp parallel for
     for(size_t j=0; j < m; j++){
+        gsl_rng* rng = rng_array[omp_get_thread_num()];
         double x = x0;
         int low_flag = 0, upper_flag = 0;
         for(size_t i = 1; i < n; i++){

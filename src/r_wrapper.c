@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <R.h>
 #include <Rinternals.h>
 #include <gsl/gsl_rng.h>
@@ -8,7 +9,7 @@
 #include "brownian.h"
 #include "geom_brownian.h"
 #include "stochastic_generator.h"
-
+#include <omp.h>
 
 gsl_rng* create_rng()
 {
@@ -23,6 +24,23 @@ gsl_rng* create_rng()
     gsl_rng_set(rng,seed);
     return rng;
 }
+gsl_rng** create_rng_array(int n)
+{
+    // Creates an array of gsl_rng* objects for multithreading
+    gsl_rng** rng_array = malloc(n * sizeof(gsl_rng*));
+    for (size_t i = 0; i < n; i++)
+    {
+        rng_array[i] = create_rng();
+    }
+    return rng_array;
+}
+// Frees the array and each gsl_rng element
+void free_rng_array(gsl_rng** rng_array,int n)
+{
+    for (size_t i = 0; i < n; i++)
+        gsl_rng_free(rng_array[i]);
+    free(rng_array);    
+}
 
 SEXP poiss_jump_times_r(SEXP lamba_,SEXP n_)
 {
@@ -35,6 +53,7 @@ SEXP poiss_jump_times_r(SEXP lamba_,SEXP n_)
     double* t = REAL(T);
     poiss_jump_times(t, lambda, n, rng);
 
+    gsl_rng_free(rng);
     UNPROTECT(1);
     return T;
 }
@@ -51,6 +70,7 @@ SEXP stochastic_vector_r(SEXP x0_, SEXP mu_, SEXP sigma_, SEXP theta_, SEXP dt_,
     size_t n = as_size_t(n_);
     int type = (int) as_size_t(process_type);
     dx_fn dx = select_process(type);
+
 
     gsl_rng* rng = create_rng();
 
@@ -77,12 +97,13 @@ SEXP stochastic_matrix_r(SEXP x0_, SEXP mu_, SEXP sigma_, SEXP theta_, SEXP dt_,
     int type = (int) as_size_t(process_type);
     dx_fn dx = select_process(type);
 
-    gsl_rng* rng = create_rng();
+    int thread_count = omp_get_max_threads();
+    gsl_rng** rng_array = create_rng_array(thread_count);
 
     SEXP M = PROTECT(Rf_allocMatrix(REALSXP,n,m));
     double* A = REAL(M);
-    stochastic_matrix(A,x0,p,dt,n,m,dx,rng);
-    gsl_rng_free(rng);
+    stochastic_matrix(A,x0,p,dt,n,m,dx,rng_array);
+    free_rng_array(rng_array,thread_count);
     UNPROTECT(1);
     return M;
 }
@@ -105,7 +126,8 @@ SEXP stochastic_end_info_r(SEXP x0_, SEXP mu_, SEXP sigma_, SEXP theta_, SEXP dt
     int type = (int) as_size_t(process_type);
     dx_fn dx = select_process(type);
 
-    gsl_rng* rng = create_rng();
+    int thread_count = omp_get_max_threads();
+    gsl_rng** rng_array = create_rng_array(thread_count);
 
     // Create list with results
     SEXP out = PROTECT(Rf_allocVector(VECSXP,3));
@@ -118,7 +140,7 @@ SEXP stochastic_end_info_r(SEXP x0_, SEXP mu_, SEXP sigma_, SEXP theta_, SEXP dt
     int* crossed_upper = LOGICAL(crossed_upper_);
     // Fill vectors with result
     stochastic_end_info(xT, crossed_lower, crossed_upper, x0, p, dt,
-    lower_thresh, upper_thresh, n, m, dx, rng);
+    lower_thresh, upper_thresh, n, m, dx, rng_array);
     // Attach vectors to the list
     SET_VECTOR_ELT(out,0,xT_);
     SET_VECTOR_ELT(out,1,crossed_lower_);
@@ -131,7 +153,7 @@ SEXP stochastic_end_info_r(SEXP x0_, SEXP mu_, SEXP sigma_, SEXP theta_, SEXP dt
     Rf_setAttrib(out,R_NamesSymbol,names);
     
     UNPROTECT(5);
-    gsl_rng_free(rng);
+    free_rng_array(rng_array,thread_count);
     return out;
 }
 
@@ -195,47 +217,47 @@ SEXP stochastic_end_info_r(SEXP x0_, SEXP mu_, SEXP sigma_, SEXP theta_, SEXP dt
 //     return M;
 // }
 
-SEXP brownian_end_info_r(SEXP x0_, SEXP mu_, SEXP sigma_, SEXP dt_,
-    SEXP lower_thresh_, SEXP upper_thresh_, SEXP n_, SEXP m_)
-{
-    // Convert types to C
-    double x0 = as_double(x0_);
-    double mu = as_double(mu_);
-    double sigma = as_positive_double(sigma_);
-    double dt = as_positive_double(dt_);
-    double lower_thresh = as_double(lower_thresh_);
-    double upper_thresh = as_double(upper_thresh_);
-    size_t n = as_size_t(n_);
-    size_t m = as_size_t(m_);
-    gsl_rng* rng = create_rng();
+// SEXP brownian_end_info_r(SEXP x0_, SEXP mu_, SEXP sigma_, SEXP dt_,
+//     SEXP lower_thresh_, SEXP upper_thresh_, SEXP n_, SEXP m_)
+// {
+//     // Convert types to C
+//     double x0 = as_double(x0_);
+//     double mu = as_double(mu_);
+//     double sigma = as_positive_double(sigma_);
+//     double dt = as_positive_double(dt_);
+//     double lower_thresh = as_double(lower_thresh_);
+//     double upper_thresh = as_double(upper_thresh_);
+//     size_t n = as_size_t(n_);
+//     size_t m = as_size_t(m_);
+//     gsl_rng* rng = create_rng();
 
-    // Create list with results
-    SEXP out = PROTECT(Rf_allocVector(VECSXP,3));
-    SEXP xT_ = PROTECT(Rf_allocVector(REALSXP,m));
-    SEXP crossed_lower_ = PROTECT(Rf_allocVector(LGLSXP,m));
-    SEXP crossed_upper_ = PROTECT(Rf_allocVector(LGLSXP,m));
-    // Extract arrays
-    double* xT = REAL(xT_);
-    int* crossed_lower = LOGICAL(crossed_lower_);
-    int* crossed_upper = LOGICAL(crossed_upper_);
-    // Fill vectors with result
-    brownian_end_info(xT,crossed_lower,crossed_upper,x0,mu,sigma,dt,
-    lower_thresh,upper_thresh,n,m,rng);
-    // Attach vectors to the list
-    SET_VECTOR_ELT(out,0,xT_);
-    SET_VECTOR_ELT(out,1,crossed_lower_);
-    SET_VECTOR_ELT(out,2,crossed_upper_);
-    // Names
-    SEXP names = PROTECT(Rf_allocVector(STRSXP,3));
-    SET_STRING_ELT(names,0,Rf_mkChar("xT"));
-    SET_STRING_ELT(names,1,Rf_mkChar("crossed_lower"));
-    SET_STRING_ELT(names,2,Rf_mkChar("crossed_upper"));
-    Rf_setAttrib(out,R_NamesSymbol,names);
+//     // Create list with results
+//     SEXP out = PROTECT(Rf_allocVector(VECSXP,3));
+//     SEXP xT_ = PROTECT(Rf_allocVector(REALSXP,m));
+//     SEXP crossed_lower_ = PROTECT(Rf_allocVector(LGLSXP,m));
+//     SEXP crossed_upper_ = PROTECT(Rf_allocVector(LGLSXP,m));
+//     // Extract arrays
+//     double* xT = REAL(xT_);
+//     int* crossed_lower = LOGICAL(crossed_lower_);
+//     int* crossed_upper = LOGICAL(crossed_upper_);
+//     // Fill vectors with result
+//     brownian_end_info(xT,crossed_lower,crossed_upper,x0,mu,sigma,dt,
+//     lower_thresh,upper_thresh,n,m,rng);
+//     // Attach vectors to the list
+//     SET_VECTOR_ELT(out,0,xT_);
+//     SET_VECTOR_ELT(out,1,crossed_lower_);
+//     SET_VECTOR_ELT(out,2,crossed_upper_);
+//     // Names
+//     SEXP names = PROTECT(Rf_allocVector(STRSXP,3));
+//     SET_STRING_ELT(names,0,Rf_mkChar("xT"));
+//     SET_STRING_ELT(names,1,Rf_mkChar("crossed_lower"));
+//     SET_STRING_ELT(names,2,Rf_mkChar("crossed_upper"));
+//     Rf_setAttrib(out,R_NamesSymbol,names);
     
-    UNPROTECT(5);
-    gsl_rng_free(rng);
-    return out;
-}
+//     UNPROTECT(5);
+//     gsl_rng_free(rng);
+//     return out;
+// }
 
 // SEXP geom_brownian_vector_r(SEXP x0_, SEXP mu_, SEXP sigma_, SEXP dt_, SEXP n_)
 // {
