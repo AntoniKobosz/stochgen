@@ -13,3 +13,4 @@ Suggests: tinytest
 SystemRequirements: GSL, OpenMP
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
+URL: https://antonikobosz.github.io/stochgen/
