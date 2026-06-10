@@ -36,7 +36,7 @@ Each column corresponds to one trajectory.
 \description{
 Simulates \code{n_traj} independent Ornstein-Uhlenbeck paths following the SDE:
 \deqn{dS_t = -\theta(S_t-\mu)dt + \sigma dW_t}
-where \eqn{W_t} is the Weiner process.
+where \eqn{W_t} is the Wiener process.
 }
 \examples{
 # Simulate a bundle of Ornstein-Uhlenbeck paths
@@ -45,7 +45,9 @@ matplot(M, type = "l", lty = 1,
         xlab = "step", ylab="S_t",
         main = "Ornstein-Uhlenbeck paths")
 }
+\references{
+\href{https://en.wikipedia.org/wiki/Ornstein\%E2\%80\%93Uhlenbeck_process}{Ornstein–Uhlenbeck process}
+}
 \seealso{
 \code{\link[=ornstein_uhlenbeck_vector]{ornstein_uhlenbeck_vector()}}, \code{\link[=ornstein_uhlenbeck_end_info]{ornstein_uhlenbeck_end_info()}},
-\href{https://en.wikipedia.org/wiki/Ornstein\%E2\%80\%93Uhlenbeck_process}{Ornstein–Uhlenbeck process}
 }

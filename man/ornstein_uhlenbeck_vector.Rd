@@ -25,7 +25,7 @@ Numeric vector of length \code{n}
 \description{
 Simulates an Ornstein-Uhlenbeck path following the SDE:
 \deqn{dS_t = -\theta(S_t-\mu)dt + \sigma dW_t}
-where \eqn{W_t} is the Weiner process.
+where \eqn{W_t} is the Wiener process.
 }
 \examples{
 # Simulate an Ornstein-Uhlenbeck path
@@ -33,7 +33,9 @@ path <- ornstein_uhlenbeck_vector(dt = 0.01, n = 100, x0 = 0,
                                   mu = 0, theta = 1, sigma = 1)
 plot(path, type = "l")
 }
+\references{
+\href{https://en.wikipedia.org/wiki/Ornstein\%E2\%80\%93Uhlenbeck_process}{Ornstein–Uhlenbeck process}
+}
 \seealso{
 \code{\link[=ornstein_uhlenbeck_matrix]{ornstein_uhlenbeck_matrix()}}, \code{\link[=ornstein_uhlenbeck_end_info]{ornstein_uhlenbeck_end_info()}},
-\href{https://en.wikipedia.org/wiki/Ornstein\%E2\%80\%93Uhlenbeck_process}{Ornstein–Uhlenbeck process}
 }

@@ -25,14 +25,16 @@ Simulates a brownian motion path following the SDE:
 \deqn{dS_t = \mu dt + \sigma dW_t}
 With solution
 \deqn{S_t = \mu t + \sigma W_t}
-where \eqn{W_t} is the Weiner process.
+where \eqn{W_t} is the Wiener process.
 }
 \examples{
 # Simulate a Brownian Motion path
 path <- brownian_vector(dt = 0.01, n = 100, x0 = 0, mu = 0, sigma = 1)
 plot(path, type = "l")
 }
+\references{
+\href{https://en.wikipedia.org/wiki/Wiener_process}{Wiener process}
+}
 \seealso{
 \code{\link[=brownian_matrix]{brownian_matrix()}}, \code{\link[=brownian_end_info]{brownian_end_info()}},
-\href{https://en.wikipedia.org/wiki/Wiener_process}{Wiener process}
 }

@@ -23,14 +23,16 @@ Numeric vector of length \code{n}
 \description{
 Simulates a brownian motion path following the SDE:
 \deqn{dS_t = \mu S_t dt + \sigma S_t dW_t}
-where \eqn{W_t} is the Weiner process.
+where \eqn{W_t} is the Wiener process.
 }
 \examples{
-# Simulate a Brownian Motion path
+# Simulate a Geometric Brownian Motion path
 path <- geom_brownian_vector(dt = 0.01, n = 100, x0 = 1, mu = 0, sigma = 0.2)
 plot(path, type = "l")
 }
+\references{
+\href{https://en.wikipedia.org/wiki/Geometric_Brownian_motion}{Geometric Brownian Motion}
+}
 \seealso{
 \code{\link[=geom_brownian_matrix]{geom_brownian_matrix()}}, \code{\link[=geom_brownian_end_info]{geom_brownian_end_info()}},
-\href{https://en.wikipedia.org/wiki/Geometric_Brownian_motion}{Geometric Brownian Motion}
 }

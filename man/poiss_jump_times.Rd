@@ -6,8 +6,34 @@
 \usage{
 poiss_jump_times(lambda, n)
 }
+\arguments{
+\item{lambda}{intensity}
+
+\item{n}{number of jumps}
+}
 \description{
-A Poisson process with intensity \eqn{\lambda} can be constructed by
-counting jumps which occur at random such that the time between jumps
-follows the Exponential distribution with parameter \eqn{\lambda}
+Simulates a Poisson process with intensity \eqn{\lambda} by generating
+the jump times \eqn{t_1, t_2, \ldots, t_n} of the first \code{n} jumps.
+Inter-arrival times follow the Exponential distribution with parameter
+\eqn{\lambda}.
+}
+\examples{
+# Simulate a Poisson process
+lambda <- 2
+n <- 50
+times <- poiss_jump_times(lambda, n)
+
+t_max <- max(times) + 1/lambda # extra padding
+steps <- c(0, times, t_max)
+N <- 0:length(times)  # process value
+
+plot(steps, c(N, tail(N, 1)),
+     type = "s",  # step function
+     xlab = "t", ylab = "N(t)",
+     main = expression("Poisson process, " ~ lambda == 2))
+abline(a = 0, b = lambda, col = "red", lty = 2)
+legend("topleft", legend = expression(lambda * t), col = "red", lty = 2)
+}
+\references{
+\href{https://en.wikipedia.org/wiki/Poisson_point_process}{Poisson point process}
 }

@@ -15,5 +15,4 @@ void poiss_jump_times(double* t,double lambda,size_t n,gsl_rng* rng){
         tau += gsl_ran_exponential(rng,mu);
         t[i] = tau;
     }
-    gsl_rng_free(rng);
 }

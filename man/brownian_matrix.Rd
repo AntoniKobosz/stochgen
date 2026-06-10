@@ -28,7 +28,7 @@ Simulates \code{n_traj} independent brownian motion paths following the SDE:
 \deqn{dS_t = \mu dt + \sigma dW_t}
 With solution
 \deqn{S_t = \mu t + \sigma W_t}
-where \eqn{W_t} is the Weiner process.
+where \eqn{W_t} is the Wiener process.
 }
 \examples{
 # Simulate a bundle of Brownian Motion paths
@@ -37,7 +37,9 @@ matplot(M, type = "l", lty = 1,
         xlab = "step", ylab="S_t",
         main = "Brownian Motion")
 }
+\references{
+\href{https://en.wikipedia.org/wiki/Wiener_process}{Wiener process}
+}
 \seealso{
 \code{\link[=brownian_vector]{brownian_vector()}}, \code{\link[=brownian_end_info]{brownian_end_info()}},
-\href{https://en.wikipedia.org/wiki/Wiener_process}{Wiener process}
 }

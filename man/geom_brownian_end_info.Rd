@@ -2,7 +2,7 @@
 % Please edit documentation in R/stochgen.R
 \name{geom_brownian_end_info}
 \alias{geom_brownian_end_info}
-\title{TODO}
+\title{Calculate final values of a bundle of geometric brownian paths}
 \usage{
 geom_brownian_end_info(
   dt,
@@ -11,16 +11,62 @@ geom_brownian_end_info(
   x0 = 1,
   mu = 0,
   sigma = 1,
-  lower_thresh,
-  upper_thresh
+  lower_thresh = 0.5,
+  upper_thresh = 2
 )
 }
 \arguments{
-\item{TODO}{}
+\item{dt}{Time step size}
+
+\item{n_steps}{Number of steps in each path}
+
+\item{n_traj}{Number of simulated paths}
+
+\item{x0}{Initial value}
+
+\item{mu}{Drift coefficient}
+
+\item{sigma}{Volatility coefficient}
+
+\item{lower_thresh}{Lower threshold. A path is flagged if it falls below this value at any point}
+
+\item{upper_thresh}{Upper threshold. A path is flagged if it exceeds this value at any point}
+}
+\value{
+A list with three elements:
+\describe{
+\item{xT}{A numeric vector of length \code{n_paths} containing the
+terminal value of each simulated path.}
+\item{crossed_upper}{A logical vector of length \code{n_paths}.
+\code{TRUE} if the path exceeded the upper threshold at any point.}
+\item{crossed_lower}{A logical vector of length \code{n_paths}.
+\code{TRUE} if the path fell below the lower threshold at any point.}
+}
 }
 \description{
-TODO
+Simulates \code{n_traj} independent geometric brownian motion paths following the SDE:
+\deqn{dS_t = \mu S_t dt + \sigma S_t dW_t}
+where \eqn{W_t} is the Wiener process.
+For each path, returns its terminal value and whether it
+exceeded the provided thresholds at any point.
+}
+\examples{
+# Simulate 100 paths of geometric Brownian motion (mu=0, sigma=1)
+# over 100 steps of size 0.01 (total time T = 1)
+result <- geom_brownian_end_info(
+  dt = 0.01, n_steps = 100, n_traj = 100
+)
+
+# Terminal values
+hist(result$xT, main = "Distribution of S_T", xlab = "S_T")
+
+# Fraction of paths that crossed each threshold
+mean(result$crossed_upper)
+mean(result$crossed_lower)
+}
+\references{
+\href{https://en.wikipedia.org/wiki/Geometric_Brownian_motion}{Geometric Brownian Motion}
 }
 \seealso{
-TODO
+\code{\link[=geom_brownian_vector]{geom_brownian_vector()}}, \code{\link[=geom_brownian_matrix]{geom_brownian_matrix()}},
 }

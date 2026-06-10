@@ -49,7 +49,7 @@ void stochastic_vector(double* x,double x0,process_params p, double dt,
 {
     // Generates a stochastic process with initial value x0, 
     // by iteratively adding dx to the previous value.
-    // dW is the increment of a standard Weiner process over a time step dt
+    // dW is the increment of a standard Wiener process over a time step dt
 
     // resultes are saved into the array x of length n
     x[0] = x0;

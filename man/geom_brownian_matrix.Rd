@@ -26,7 +26,7 @@ Each column corresponds to one trajectory.
 \description{
 Simulates \code{n_traj} independent geometric brownian motion paths following the SDE:
 \deqn{dS_t = \mu S_t dt + \sigma S_t dW_t}
-where \eqn{W_t} is the Weiner process.
+where \eqn{W_t} is the Wiener process.
 }
 \examples{
 # Simulate a bundle of Geometric Brownian Motion paths
@@ -35,7 +35,9 @@ matplot(M, type = "l", lty = 1,
         xlab = "step", ylab="S_t",
         main = "Geometric Brownian Motion")
 }
+\references{
+\href{https://en.wikipedia.org/wiki/Geometric_Brownian_motion}{Geometric Brownian Motion}
+}
 \seealso{
 \code{\link[=geom_brownian_vector]{geom_brownian_vector()}}, \code{\link[=geom_brownian_end_info]{geom_brownian_end_info()}},
-\href{https://en.wikipedia.org/wiki/Geometric_Brownian_motion}{Geometric Brownian Motion}
 }
