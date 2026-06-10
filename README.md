@@ -25,3 +25,4 @@ https://antonikobosz.github.io/stochgen/
 install.packages("remotes")
 
 remotes::install_github("AntoniKobosz/stochgen")
+```
