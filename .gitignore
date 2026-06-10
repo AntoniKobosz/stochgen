@@ -5,3 +5,9 @@ temp
 *.o
 *.so
 *.a
+*.rds
+*.tar.gz
+
+# Rcheck
+..Rcheck
+*.Rcheck

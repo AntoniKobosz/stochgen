@@ -1,10 +1,12 @@
 Package: stochgen
 Type: Package
-Title: TODO
+Title: Simulation of Stochastic Processes
 Version: 0.1.0
 Authors@R: person("Antoni","Kobosz",email="antoni.kobosz@gmail.com",role=c("aut","cre"))
-Description: TODO
-License: MIT + File License
+Author: Antoni Kobosz [aut, cre]
+Maintainer: Antoni Kobosz <antoni.kobosz@gmail.com>
+Description: A lightweight package for simulating stochastic processes.
+License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: R (>= 3.4)
 Suggests: tinytest

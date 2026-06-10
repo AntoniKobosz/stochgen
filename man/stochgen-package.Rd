@@ -4,9 +4,9 @@
 \name{stochgen-package}
 \alias{stochgen}
 \alias{stochgen-package}
-\title{stochgen: TODO}
+\title{stochgen: Simulation of Stochastic Processes}
 \description{
-TODO
+A lightweight package for simulating stochastic processes.
 }
 \author{
 \strong{Maintainer}: Antoni Kobosz \email{antoni.kobosz@gmail.com}
