@@ -8,6 +8,13 @@
 \description{
 A lightweight package for simulating stochastic processes.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://antonikobosz.github.io/stochgen/}
+}
+
+}
 \author{
 \strong{Maintainer}: Antoni Kobosz \email{antoni.kobosz@gmail.com}
 

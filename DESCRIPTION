@@ -8,7 +8,7 @@ Maintainer: Antoni Kobosz <antoni.kobosz@gmail.com>
 Description: A lightweight package for simulating stochastic processes.
 License: MIT + file LICENSE
 Encoding: UTF-8
-Depends: R (>= 3.4)
+Depends: R (>= 4.1)
 Suggests: tinytest
 SystemRequirements: GSL, OpenMP
 Roxygen: list(markdown = TRUE)
