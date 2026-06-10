@@ -1,7 +1,3 @@
----
-title: stochgen
----
-
 # stochgen 
 
 Simulation of stochastic processes in R.
