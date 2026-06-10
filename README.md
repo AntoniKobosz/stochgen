@@ -1,4 +1,8 @@
-# stochgen
+---
+title: stochgen
+---
+
+# stochgen 
 
 Simulation of stochastic processes in R.
 
@@ -21,8 +25,3 @@ https://antonikobosz.github.io/stochgen/
 install.packages("remotes")
 
 remotes::install_github("AntoniKobosz/stochgen")
-```
-
----
-# License
-MIT, see LICENSE.
