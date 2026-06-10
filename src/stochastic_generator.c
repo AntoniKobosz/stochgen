@@ -64,7 +64,7 @@ void stochastic_vector(double* x,double x0,process_params p, double dt,
 void stochastic_matrix(double* A,double x0, process_params p, double dt, 
     size_t n,size_t m,dx_fn dx,gsl_rng** rng_array)
 {
-    // Generates a matrix of m syochastic vectors, each of length n.
+    // Generates a matrix of m stochastic vectors, each of length n.
     // writes result into an nxm matrix in Fortran order
     double sqrt_dt = sqrt(dt);
     
