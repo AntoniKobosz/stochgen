@@ -2,12 +2,17 @@
 
 Simulation of stochastic processes in R.
 
-The package provides lightweight tools for simulating common stochastic processes such as Brownian motion,
-Geometric brownian motion, Ornstein-Uhlenbeck, and Poisson jump processes. Core computations are implemented in C with  use of GSL and OpenMP for performance.
-\\
-For more information, check out the 
+The package provides lightweight tools for simulating common stochastic processes such as:
+Brownian motion, Geometric Brownian Motion, Ornstein–Uhlenbeck process, and Poisson jump processes.
+
+Core computations are implemented in C with GSL and OpenMP for performance.
+
 ---
 
+For more information, visit:
+https://antonikobosz.github.io/stochgen/
+
+---
 ## Installation
 
 ### From GitHub (development version)
