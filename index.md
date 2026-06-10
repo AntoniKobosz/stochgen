@@ -19,6 +19,9 @@ For more information, visit: <https://antonikobosz.github.io/stochgen/>
 
 ### From GitHub (development version)
 
-\`\`\`r install.packages(“remotes”)
+``` r
 
-remotes::install_github(“AntoniKobosz/stochgen”)
+install.packages("remotes")
+
+remotes::install_github("AntoniKobosz/stochgen")
+```
