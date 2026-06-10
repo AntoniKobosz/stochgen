@@ -12,7 +12,7 @@
 
 SEXP poiss_jump_times_r(SEXP lamba_,SEXP n_)
 {
-    double lambda = as_double(lamba_);
+    double lambda = as_positive_double(lamba_);
     size_t n = as_size_t(n_);
     gsl_rng* rng = create_rng();
     // Stwórz wynikowy SEXP
